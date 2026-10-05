@@ -1,860 +1,330 @@
+
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T&C Jastip - Jastip Area Jember</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-
-        :root {
-            --black: #111;
-            --red: #e51f2a;
-            --bg: #f7f7f7;
-            --muted: #707070;
-            --border: #e2e2e2;
-            --green: #159447
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: var(--bg);
-            color: #222;
-            line-height: 1.5
-        }
-
-        .container {
-            width: min(1050px, 92%);
-            margin: auto
-        }
-
-        header {
-            background: #111;
-            color: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            box-shadow: 0 3px 15px #0002
-        }
-
-        .nav {
-            min-height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between
-        }
-
-        .brand {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 1px
-        }
-
-        .brand span {
-            color: #ff3340
-        }
-
-        .nav a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px
-        }
-
-        .hero {
-            background: radial-gradient(circle at 85% 20%, #e51f2a59, transparent 30%), linear-gradient(135deg, #111, #222 60%, #3a1114);
-            color: #fff;
-            padding: 70px 0
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.25fr .75fr;
-            gap: 35px;
-            align-items: center
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 7px 12px;
-            border-radius: 999px;
-            background: #ffffff1a;
-            border: 1px solid #ffffff33;
-            font-size: 13px;
-            margin-bottom: 15px
-        }
-
-        .hero h1 {
-            font-size: clamp(40px, 7vw, 72px);
-            line-height: .95;
-            margin-bottom: 20px
-        }
-
-        .hero h1 span {
-            color: #ff3340
-        }
-
-        .hero p {
-            max-width: 650px;
-            color: #ddd;
-            font-size: 17px
-        }
-
-        .hero-card {
-            background: #ffffff14;
-            border: 1px solid #ffffff24;
-            border-radius: 22px;
-            padding: 25px
-        }
-
-        .hero-card h3 {
-            margin-bottom: 12px
-        }
-
-        .hero-card ul {
-            list-style: none
-        }
-
-        .hero-card li {
-            padding: 8px 0;
-            border-bottom: 1px solid #ffffff1a
-        }
-
-        .hero-card li:last-child {
-            border: 0
-        }
-
-        main {
-            padding: 45px 0 80px
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 28px
-        }
-
-        .section-title h2 {
-            font-size: 32px
-        }
-
-        .section-title p {
-            color: var(--muted)
-        }
-
-        .form-card {
-            background: #fff;
-            border-radius: 22px;
-            padding: clamp(20px, 4vw, 38px);
-            box-shadow: 0 10px 40px #00000012
-        }
-
-        .step {
-            margin-bottom: 32px
-        }
-
-        .step:last-child {
-            margin-bottom: 0
-        }
-
-        .step-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px
-        }
-
-        .number {
-            width: 34px;
-            height: 34px;
-            background: #111;
-            color: #fff;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            font-weight: bold;
-            flex: 0 0 34px
-        }
-
-        .step-title h3 {
-            font-size: 19px
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 17px
-        }
-
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 7px
-        }
-
-        .field.full {
-            grid-column: 1/-1
-        }
-
-        label {
-            font-size: 14px;
-            font-weight: 700
-        }
-
-        .required {
-            color: var(--red)
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 13px 14px;
-            font: inherit;
-            outline: none;
-            background: #fff;
-            transition: .2s
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 95px
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #111;
-            box-shadow: 0 0 0 3px #1111110f
-        }
-
-        .hint {
-            color: var(--muted);
-            font-size: 12px
-        }
-
-        .area-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px
-        }
-
-        .area-option {
-            position: relative
-        }
-
-        .area-option input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none
-        }
-
-        .area-option label {
-            display: block;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            cursor: pointer;
-            background: #fff;
-            height: 100%
-        }
-
-        .area-option label strong {
-            display: block;
-            margin-bottom: 4px
-        }
-
-        .area-option label small {
-            display: block;
-            color: var(--muted)
-        }
-
-        .area-option .area-detail {
-            display: block;
-            margin-top: 8px;
-            font-size: 12px;
-            line-height: 1.5;
-            color: var(--muted)
-        }
-
-        .area-option input:checked+label .area-detail {
-            color: #ddd
-        }
-
-        .area-option input:checked+label {
-            border-color: #111;
-            background: #111;
-            color: #fff
-        }
-
-        .area-option input:checked+label small {
-            color: #ddd
-        }
-
-        .place-card {
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            padding: 20px;
-            margin-bottom: 15px;
-            background: #fff
-        }
-
-        .place-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px
-        }
-
-        .place-title {
-            font-size: 17px;
-            font-weight: 800
-        }
-
-        .remove-place {
-            border: 0;
-            background: #fee2e2;
-            color: #b91c1c;
-            padding: 7px 10px;
-            border-radius: 9px;
-            font-weight: 700;
-            cursor: pointer
-        }
-
-        .add-place {
-            width: 100%;
-            margin-top: 5px
-        }
-
-        .info-note {
-            background: #fff7e6;
-            border: 1px solid #f1d798;
-            border-radius: 13px;
-            padding: 13px;
-            font-size: 13px;
-            margin-top: 12px
-        }
-
-        .summary {
-            background: #f6f6f6;
-            border-radius: 17px;
-            padding: 20px
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            padding: 8px 0
-        }
-
-        .summary-row.total {
-            border-top: 1px solid #ddd;
-            margin-top: 10px;
-            padding-top: 15px;
-            font-size: 20px;
-            font-weight: 800
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 13px;
-            padding: 14px 20px;
-            font: inherit;
-            font-weight: 800;
-            cursor: pointer;
-            transition: .2s;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            gap: 9px;
-            text-decoration: none
-        }
-
-        .btn:hover {
-            transform: translateY(-1px)
-        }
-
-        .btn-red {
-            background: var(--red);
-            color: #fff
-        }
-
-        .btn-green {
-            background: #16a34a;
-            color: #fff
-        }
-
-        .btn-light {
-            background: #eee;
-            color: #111
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap
-        }
-
-        .actions .btn {
-            flex: 1;
-            min-width: 220px
-        }
-
-        .success-box {
-            display: none;
-            background: #effcf4;
-            border: 1px solid #bde8cc;
-            border-radius: 14px;
-            padding: 15px;
-            margin-top: 15px;
-            color: #116332
-        }
-
-        .success-box.show {
-            display: block
-        }
-
-        .info-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 25px
-        }
-
-        .info-card {
-            background: #fff;
-            padding: 22px;
-            border-radius: 17px;
-            box-shadow: 0 5px 20px #0000000d
-        }
-
-        .info-card .icon {
-            font-size: 27px;
-            margin-bottom: 10px
-        }
-
-        .info-card h3 {
-            margin-bottom: 6px
-        }
-
-        .info-card p {
-            color: var(--muted);
-            font-size: 14px
-        }
-
-        footer {
-            background: #111;
-            color: #bbb;
-            padding: 28px 0;
-            text-align: center;
-            font-size: 13px
-        }
-
-        footer strong {
-            color: #fff
-        }
-
-        @media(max-width:760px) {
-
-            .hero-grid,
-            .grid {
-                grid-template-columns: 1fr
-            }
-
-            .hero {
-                padding: 55px 0
-            }
-
-            .area-options {
-                grid-template-columns: 1fr 1fr
-            }
-
-            .info-cards {
-                grid-template-columns: 1fr
-            }
-
-            .nav a {
-                display: none
-            }
-
-            .field.full {
-                grid-column: auto
-            }
-        }
-
-        @media(max-width:450px) {
-            .area-options {
-                grid-template-columns: 1fr
-            }
-
-            .actions .btn {
-                min-width: 100%
-            }
-
-            .hero h1 {
-                font-size: 50px
-            }
-        }
-
-        /* ===== STATUS OPERASIONAL ===== */
-        .status-closed {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .72);
-            backdrop-filter: blur(6px);
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .status-closed.show {
-            display: flex;
-        }
-
-        .status-closed-card {
-            width: min(560px, 100%);
-            background: #fff;
-            border-radius: 22px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
-        }
-
-        .status-closed-icon {
-            font-size: 52px;
-            margin-bottom: 10px;
-        }
-
-        .status-closed-card h2 {
-            margin: 0 0 10px;
-            color: #111;
-        }
-
-        .status-closed-card p {
-            margin: 8px 0;
-            color: #555;
-        }
-
-        .status-closed-time {
-            display: inline-block;
-            margin: 14px 0;
-            padding: 10px 16px;
-            border-radius: 999px;
-            background: #f1f1f1;
-            font-weight: 800;
-            color: #111;
-        }
-
-        .status-closed-note {
-            margin-top: 16px !important;
-            font-size: 13px;
-            color: #777 !important;
-        }
-
-        body.order-closed main,
-        body.order-closed footer {
-            pointer-events: none;
-            user-select: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T&C Jastip - Jastip Area Jember</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#111;--red:#e51f2a;--bg:#f7f7f7;--muted:#707070;--border:#e2e2e2;--green:#159447}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#222;line-height:1.5}
+.container{width:min(1050px,92%);margin:auto}
+header{background:#111;color:#fff;position:sticky;top:0;z-index:10;box-shadow:0 3px 15px #0002}
+.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:28px;font-weight:900;letter-spacing:1px}.brand span{color:#ff3340}
+.nav a{color:#fff;text-decoration:none;font-size:14px}
+.hero{background:radial-gradient(circle at 85% 20%,#e51f2a59,transparent 30%),linear-gradient(135deg,#111,#222 60%,#3a1114);color:#fff;padding:70px 0}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:35px;align-items:center}
+.badge{display:inline-block;padding:7px 12px;border-radius:999px;background:#ffffff1a;border:1px solid #ffffff33;font-size:13px;margin-bottom:15px}
+.hero h1{font-size:clamp(40px,7vw,72px);line-height:.95;margin-bottom:20px}.hero h1 span{color:#ff3340}
+.hero p{max-width:650px;color:#ddd;font-size:17px}
+.hero-card{background:#ffffff14;border:1px solid #ffffff24;border-radius:22px;padding:25px}
+.hero-card h3{margin-bottom:12px}.hero-card ul{list-style:none}.hero-card li{padding:8px 0;border-bottom:1px solid #ffffff1a}.hero-card li:last-child{border:0}
+main{padding:45px 0 80px}.section-title{text-align:center;margin-bottom:28px}.section-title h2{font-size:32px}.section-title p{color:var(--muted)}
+.form-card{background:#fff;border-radius:22px;padding:clamp(20px,4vw,38px);box-shadow:0 10px 40px #00000012}
+.step{margin-bottom:32px}.step:last-child{margin-bottom:0}
+.step-title{display:flex;align-items:center;gap:12px;margin-bottom:18px}.number{width:34px;height:34px;background:#111;color:#fff;border-radius:50%;display:grid;place-items:center;font-weight:bold;flex:0 0 34px}.step-title h3{font-size:19px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+label{font-size:14px;font-weight:700}.required{color:var(--red)}
+input,select,textarea{width:100%;border:1px solid var(--border);border-radius:12px;padding:13px 14px;font:inherit;outline:none;background:#fff;transition:.2s}
+textarea{resize:vertical;min-height:95px}input:focus,select:focus,textarea:focus{border-color:#111;box-shadow:0 0 0 3px #1111110f}
+.hint{color:var(--muted);font-size:12px}
+.area-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.area-option{position:relative}.area-option input{position:absolute;opacity:0;pointer-events:none}
+.area-option label{display:block;padding:15px;border:1px solid var(--border);border-radius:14px;cursor:pointer;background:#fff;height:100%}.area-option label strong{display:block;margin-bottom:4px}.area-option label small{display:block;color:var(--muted)}
+.area-option .area-detail{display:block;margin-top:8px;font-size:12px;line-height:1.5;color:var(--muted)}
+.area-option input:checked+label .area-detail{color:#ddd}
+.area-option input:checked+label{border-color:#111;background:#111;color:#fff}.area-option input:checked+label small{color:#ddd}
+.place-card{border:1px solid var(--border);border-radius:17px;padding:20px;margin-bottom:15px;background:#fff}
+.place-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.place-title{font-size:17px;font-weight:800}
+.remove-place{border:0;background:#fee2e2;color:#b91c1c;padding:7px 10px;border-radius:9px;font-weight:700;cursor:pointer}
+.add-place{width:100%;margin-top:5px}
+.info-note{background:#fff7e6;border:1px solid #f1d798;border-radius:13px;padding:13px;font-size:13px;margin-top:12px}
+.summary{background:#f6f6f6;border-radius:17px;padding:20px}.summary-row{display:flex;justify-content:space-between;gap:15px;padding:8px 0}.summary-row.total{border-top:1px solid #ddd;margin-top:10px;padding-top:15px;font-size:20px;font-weight:800}
+.btn{border:0;border-radius:13px;padding:14px 20px;font:inherit;font-weight:800;cursor:pointer;transition:.2s;display:inline-flex;justify-content:center;align-items:center;gap:9px;text-decoration:none}.btn:hover{transform:translateY(-1px)}
+.btn-red{background:var(--red);color:#fff}.btn-green{background:#16a34a;color:#fff}.btn-light{background:#eee;color:#111}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.actions .btn{flex:1;min-width:220px}
+
+.success-box{display:none;background:#effcf4;border:1px solid #bde8cc;border-radius:14px;padding:15px;margin-top:15px;color:#116332}.success-box.show{display:block}
+.info-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:25px}.info-card{background:#fff;padding:22px;border-radius:17px;box-shadow:0 5px 20px #0000000d}.info-card .icon{font-size:27px;margin-bottom:10px}.info-card h3{margin-bottom:6px}.info-card p{color:var(--muted);font-size:14px}
+footer{background:#111;color:#bbb;padding:28px 0;text-align:center;font-size:13px}footer strong{color:#fff}
+@media(max-width:760px){.hero-grid,.grid{grid-template-columns:1fr}.hero{padding:55px 0}.area-options{grid-template-columns:1fr 1fr}.info-cards{grid-template-columns:1fr}.nav a{display:none}.field.full{grid-column:auto}}
+@media(max-width:450px){.area-options{grid-template-columns:1fr}.actions .btn{min-width:100%}.hero h1{font-size:50px}}
+
+/* ===== STATUS OPERASIONAL ===== */
+.status-closed {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.status-closed.show {
+    display: flex;
+}
+.status-closed-card {
+    width: min(560px, 100%);
+    background: #fff;
+    border-radius: 22px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.status-closed-icon {
+    font-size: 52px;
+    margin-bottom: 10px;
+}
+.status-closed-card h2 {
+    margin: 0 0 10px;
+    color: #111;
+}
+.status-closed-card p {
+    margin: 8px 0;
+    color: #555;
+}
+.status-closed-time {
+    display: inline-block;
+    margin: 14px 0;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #f1f1f1;
+    font-weight: 800;
+    color: #111;
+}
+.status-closed-note {
+    margin-top: 16px !important;
+    font-size: 13px;
+    color: #777 !important;
+}
+body.order-closed main,
+body.order-closed footer {
+    pointer-events: none;
+    user-select: none;
+}
+</style>
 </head>
-
 <body>
-    <div class="status-closed" id="closedOverlay" role="dialog" aria-modal="true" aria-labelledby="closedTitle">
-        <div class="status-closed-card">
-            <div class="status-closed-icon">⏰</div>
-            <h2 id="closedTitle">T&C Jastip Sedang Tidak Tersedia</h2>
-            <p id="closedReason">Admin sedang memiliki kegiatan.</p>
-            <div class="status-closed-time" id="closedTime">07.00 – 17.00 WIB</div>
-            <p>Silakan kembali lagi setelah jam operasional selesai.</p>
-            <p class="status-closed-note">Pesanan tidak dapat dikirim selama status ini aktif.</p>
-        </div>
+<div class="status-closed" id="closedOverlay" role="dialog" aria-modal="true" aria-labelledby="closedTitle">
+    <div class="status-closed-card">
+        <div class="status-closed-icon">⏰</div>
+        <h2 id="closedTitle">T&C Jastip Sedang Tidak Tersedia</h2>
+        <p id="closedReason">Admin sedang memiliki kegiatan.</p>
+        <div class="status-closed-time" id="closedTime">07.00 – 17.00 WIB</div>
+        <p>Silakan kembali lagi setelah jam operasional selesai.</p>
+        <p class="status-closed-note">Pesanan tidak dapat dikirim selama status ini aktif.</p>
     </div>
+</div>
 
 
-    <header>
-        <div class="container nav">
-            <div class="brand">T<span>&</span>C</div>
-            <a href="#order">Mulai Pesan →</a>
-        </div>
-    </header>
+<header>
+<div class="container nav">
+<div class="brand">T<span>&</span>C</div>
+<a href="#order">Mulai Pesan →</a>
+</div>
+</header>
 
-    <section class="hero">
-        <div class="container hero-grid">
-            <div>
-                <div class="badge">JASTIP AREA JEMBER</div>
-                <h1>T&C<br><span>Jastip.</span></h1>
-                <p>Jastip bebas area Jember. Kamu tentukan tempat yang ingin didatangi,
-                    barang yang ingin dibeli, dan kasih ancer-ancer lokasi pengantaran.
-                    Tidak perlu login.</p>
-            </div>
-            <div class="hero-card">
-                <h3>⚡ Cara Order</h3>
-                <ul>
-                    <li>01 — Isi data pemesan</li>
-                    <li>02 — Pilih 1 tempat atau tambah tempat lain</li>
-                    <li>03 — Setiap tempat berbeda +Rp3.000</li>
-                    <li>04 — Pilih area pengantaran</li>
-                    <li>05 — Cek ringkasan ongkir</li>
-                    <li>06 — Kirim order langsung ke WhatsApp Admin</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+<div class="container hero-grid">
+<div>
+<div class="badge">JASTIP AREA JEMBER</div>
+<h1>T&C<br><span>Jastip.</span></h1>
+<p>Jastip bebas area Jember. Kamu tentukan tempat yang ingin didatangi,
+barang yang ingin dibeli, dan kasih ancer-ancer lokasi pengantaran.
+Tidak perlu login.</p>
+</div>
+<div class="hero-card">
+<h3>⚡ Cara Order</h3>
+<ul>
+<li>01 — Isi data pemesan</li>
+<li>02 — Pilih 1 tempat atau tambah tempat lain</li>
+<li>03 — Setiap tempat berbeda +Rp3.000</li>
+<li>04 — Pilih area pengantaran</li>
+<li>05 — Cek ringkasan ongkir</li>
+<li>06 — Kirim order langsung ke WhatsApp Admin</li>
+</ul>
+</div>
+</div>
+</section>
 
-    <main id="order">
-        <div class="container">
-            <div class="section-title">
-                <h2>Form Pemesanan</h2>
-                <p>Isi pesanan, alamat, dan area pengantaran. Setelah itu order langsung dikirim ke WhatsApp Admin untuk
-                    dihitung totalnya.</p>
-            </div>
+<main id="order">
+<div class="container">
+<div class="section-title">
+<h2>Form Pemesanan</h2>
+<p>Isi pesanan, alamat, dan area pengantaran. Setelah itu order langsung dikirim ke WhatsApp Admin untuk dihitung totalnya.</p>
+</div>
 
-            <form id="orderForm" class="form-card">
+<form id="orderForm" class="form-card">
 
-                <div class="step">
-                    <div class="step-title">
-                        <div class="number">1</div>
-                        <h3>Data Pemesan</h3>
-                    </div>
-                    <div class="grid">
-                        <div class="field">
-                            <label>Nama <span class="required">*</span></label>
-                            <input type="text" id="nama" placeholder="Nama kamu" required>
-                        </div>
-                        <div class="field">
-                            <label>Nomor WhatsApp <span class="required">*</span></label>
-                            <input type="tel" id="nomor" placeholder="08xxxxxxxxxx" required>
-                        </div>
-                    </div>
-                </div>
+<div class="step">
+<div class="step-title"><div class="number">1</div><h3>Data Pemesan</h3></div>
+<div class="grid">
+<div class="field">
+<label>Nama <span class="required">*</span></label>
+<input type="text" id="nama" placeholder="Nama kamu" required>
+</div>
+<div class="field">
+<label>Nomor WhatsApp <span class="required">*</span></label>
+<input type="tel" id="nomor" placeholder="08xxxxxxxxxx" required>
+</div>
+</div>
+</div>
 
-                <div class="step">
-                    <div class="step-title">
-                        <div class="number">2</div>
-                        <h3>Tempat yang Ingin Didatangi</h3>
-                    </div>
-                    <div class="hint" style="margin-bottom:12px">
-                        Minimal 1 tempat. Kamu boleh menambahkan tempat lain yang berbeda.
-                        <strong>Setiap tempat tambahan dikenakan Rp3.000.</strong>
-                    </div>
+<div class="step">
+<div class="step-title"><div class="number">2</div><h3>Tempat yang Ingin Didatangi</h3></div>
+<div class="hint" style="margin-bottom:12px">
+Minimal 1 tempat. Kamu boleh menambahkan tempat lain yang berbeda.
+<strong>Setiap tempat tambahan dikenakan Rp3.000.</strong>
+</div>
 
-                    <div id="places"></div>
+<div id="places"></div>
 
-                    <button type="button" class="btn btn-light add-place" id="addPlace">
-                        ＋ Tambah Tempat Berbeda <span>(+Rp3.000)</span>
-                    </button>
+<button type="button" class="btn btn-light add-place" id="addPlace">
+＋ Tambah Tempat Berbeda <span>(+Rp3.000)</span>
+</button>
 
-                    <div class="info-note">
-                        <strong>Contoh:</strong> mau titip di 1 tempat = tidak ada tambahan.
-                        Mau titip di 2 tempat berbeda = +Rp3.000.
-                        Mau titip di 3 tempat berbeda = +Rp6.000.
-                    </div>
-                </div>
+<div class="info-note">
+<strong>Contoh:</strong> mau titip di 1 tempat = tidak ada tambahan.
+Mau titip di 2 tempat berbeda = +Rp3.000.
+Mau titip di 3 tempat berbeda = +Rp6.000.
+</div>
+</div>
 
-                <div class="step">
-                    <div class="step-title">
-                        <div class="number">3</div>
-                        <h3>Area Pengantaran</h3>
-                    </div>
-                    <div class="area-options">
-                        <div class="area-option"><input type="radio" id="kampus" name="area" value="Jember Kampus"
-                                data-ongkir="7000" required><label for="kampus"><strong>Jember
-                                    Kampus</strong><small>Rp7.000</small><span class="area-detail">Jl. Jawa · Jl.
-                                    Karimata · Jl. Tidar · Jl. Kaliurang · Jl. Mastrip · Jl. Danau Toba · Jl. Kalimantan
-                                    · Jl. Sumatera</span></label></div>
-                        <div class="area-option"><input type="radio" id="patrang" name="area" value="Patrang"
-                                data-ongkir="8000"><label
-                                for="patrang"><strong>Patrang</strong><small>Rp8.000</small></label></div>
-                        <div class="area-option"><input type="radio" id="gebang" name="area" value="Gebang"
-                                data-ongkir="8000"><label
-                                for="gebang"><strong>Gebang</strong><small>Rp8.000</small></label></div>
-                        <div class="area-option"><input type="radio" id="soebandi" name="area" value="Soebandi"
-                                data-ongkir="8000"><label
-                                for="soebandi"><strong>Soebandi</strong><small>Rp8.000</small></label></div>
-                        <div class="area-option"><input type="radio" id="wirolegi" name="area" value="Wirolegi"
-                                data-ongkir="10000"><label
-                                for="wirolegi"><strong>Wirolegi</strong><small>Rp10.000</small></label></div>
-                        <div class="area-option"><input type="radio" id="armed" name="area" value="Armed"
-                                data-ongkir="8000"><label
-                                for="armed"><strong>Armed</strong><small>Rp8.000</small></label></div>
-                    </div>
-                </div>
+<div class="step">
+<div class="step-title"><div class="number">3</div><h3>Area Pengantaran</h3></div>
+<div class="area-options">
+<div class="area-option"><input type="radio" id="kampus" name="area" value="Jember Kampus" data-ongkir="7000" required><label for="kampus"><strong>Jember Kampus</strong><small>Rp7.000</small><span class="area-detail">Jl. Jawa · Jl. Karimata · Jl. Tidar · Jl. Kaliurang · Jl. Mastrip · Jl. Danau Toba · Jl. Kalimantan · Jl. Sumatera</span></label></div>
+<div class="area-option"><input type="radio" id="patrang" name="area" value="Patrang" data-ongkir="8000"><label for="patrang"><strong>Patrang</strong><small>Rp8.000</small></label></div>
+<div class="area-option"><input type="radio" id="gebang" name="area" value="Gebang" data-ongkir="8000"><label for="gebang"><strong>Gebang</strong><small>Rp8.000</small></label></div>
+<div class="area-option"><input type="radio" id="soebandi" name="area" value="Soebandi" data-ongkir="8000"><label for="soebandi"><strong>Soebandi</strong><small>Rp8.000</small></label></div>
+<div class="area-option"><input type="radio" id="wirolegi" name="area" value="Wirolegi" data-ongkir="10000"><label for="wirolegi"><strong>Wirolegi</strong><small>Rp10.000</small></label></div>
+<div class="area-option"><input type="radio" id="armed" name="area" value="Armed" data-ongkir="8000"><label for="armed"><strong>Armed</strong><small>Rp8.000</small></label></div>
+</div>
+</div>
 
-                <div class="step">
-                    <div class="step-title">
-                        <div class="number">4</div>
-                        <h3>Alamat Pengantaran</h3>
-                    </div>
-                    <div class="grid">
-                        <div class="field full">
-                            <label>Alamat / ancer-ancer pengantaran <span class="required">*</span></label>
-                            <textarea id="alamatKirim" placeholder="Contoh:
+<div class="step">
+<div class="step-title"><div class="number">4</div><h3>Alamat Pengantaran</h3></div>
+<div class="grid">
+<div class="field full">
+<label>Alamat / ancer-ancer pengantaran <span class="required">*</span></label>
+<textarea id="alamatKirim" placeholder="Contoh:
 Kos Putri Mawar, Jalan Kalimantan
 Blok B nomor 12
 Rumah pagar hitam, sebelah laundry
 Dekat masjid / minimarket / kampus
 Patokan lain yang memudahkan driver..." required></textarea>
-                            <div class="hint">Tidak perlu Google Maps. Berikan ancer-ancer sejelas mungkin, seperti nama
-                                kos, blok, nomor rumah, patokan, atau nama jalan.</div>
-                        </div>
-                        <div class="field full">
-                            <label>Catatan pengantaran</label>
-                            <textarea id="catatan"
-                                placeholder="Contoh: jangan telepon, chat WhatsApp saja. Titip ke penjaga kos. Rumah warna putih."></textarea>
-                        </div>
-                    </div>
-                </div>
+<div class="hint">Tidak perlu Google Maps. Berikan ancer-ancer sejelas mungkin, seperti nama kos, blok, nomor rumah, patokan, atau nama jalan.</div>
+</div>
+<div class="field full">
+<label>Catatan pengantaran</label>
+<textarea id="catatan" placeholder="Contoh: jangan telepon, chat WhatsApp saja. Titip ke penjaga kos. Rumah warna putih."></textarea>
+</div>
+</div>
+</div>
 
-                <div class="step">
-                    <div class="step-title">
-                        <div class="number">5</div>
-                        <h3>Ringkasan Ongkir</h3>
-                    </div>
-                    <div class="summary">
-                        <div class="summary-row"><span>Ongkir area</span><strong id="summaryArea">Rp0</strong></div>
-                        <div class="summary-row"><span>Tempat tambahan</span><strong id="summaryTambahan">0 ×
-                                Rp3.000</strong></div>
-                        <div class="summary-row total"><span>Total Ongkir</span><strong id="summaryTotal">Rp0</strong>
-                        </div>
-                    </div>
-                    <div class="info-note">
-                        <strong>💡 Total akhir dihitung oleh Admin.</strong>
-                        Website hanya menghitung ongkir dan tambahan tempat. Setelah form dikirim, semua detail pesanan
-                        akan langsung masuk ke WhatsApp Admin untuk dihitung total keseluruhannya.
-                    </div>
-                </div>
+<div class="step">
+<div class="step-title"><div class="number">5</div><h3>Ringkasan Ongkir</h3></div>
+<div class="summary">
+<div class="summary-row"><span>Ongkir area</span><strong id="summaryArea">Rp0</strong></div>
+<div class="summary-row"><span>Tempat tambahan</span><strong id="summaryTambahan">0 × Rp3.000</strong></div>
+<div class="summary-row total"><span>Total Ongkir</span><strong id="summaryTotal">Rp0</strong></div>
+</div>
+<div class="info-note">
+<strong>💡 Total akhir dihitung oleh Admin.</strong>
+Website hanya menghitung ongkir dan tambahan tempat. Setelah form dikirim, semua detail pesanan akan langsung masuk ke WhatsApp Admin untuk dihitung total keseluruhannya.
+</div>
+</div>
 
-                <div class="actions">
-                    <button type="button" class="btn btn-red" id="sendWhatsapp">💬 Kirim Pesanan ke WhatsApp
-                        Admin</button>
-                </div>
+<div class="actions">
+<button type="button" class="btn btn-red" id="sendWhatsapp">💬 Kirim Pesanan ke WhatsApp Admin</button>
+</div>
 
-                <div class="success-box" id="successBox">
-                    <strong>Pesanan siap dikirim.</strong><br>
-                    WhatsApp Admin akan terbuka dengan detail pesanan. Admin akan menghitung total harga barang + ongkir
-                    + tambahan.
-                </div>
+<div class="success-box" id="successBox">
+<strong>Pesanan siap dikirim.</strong><br>
+WhatsApp Admin akan terbuka dengan detail pesanan. Admin akan menghitung total harga barang + ongkir + tambahan.
+</div>
 
-            </form>
+</form>
 
-            <div class="info-cards">
-                <div class="info-card">
-                    <div class="icon">🔓</div>
-                    <h3>Tanpa Login</h3>
-                    <p>Customer langsung mengisi form tanpa membuat akun.</p>
-                </div>
-                <div class="info-card">
-                    <div class="icon">🏪</div>
-                    <h3>Bebas Tempat</h3>
-                    <p>Customer bebas menentukan toko, resto, warung, atau tempat lain.</p>
-                </div>
-                <div class="info-card">
-                    <div class="icon">📍</div>
-                    <h3>Pakai Ancer-Ancer</h3>
-                    <p>Cukup tulis kos, rumah, blok, nomor rumah, jalan, dan patokan sekitar.</p>
-                </div>
-            </div>
-        </div>
-    </main>
+<div class="info-cards">
+<div class="info-card"><div class="icon">🔓</div><h3>Tanpa Login</h3><p>Customer langsung mengisi form tanpa membuat akun.</p></div>
+<div class="info-card"><div class="icon">🏪</div><h3>Bebas Tempat</h3><p>Customer bebas menentukan toko, resto, warung, atau tempat lain.</p></div>
+<div class="info-card"><div class="icon">📍</div><h3>Pakai Ancer-Ancer</h3><p>Cukup tulis kos, rumah, blok, nomor rumah, jalan, dan patokan sekitar.</p></div>
+</div>
+</div>
+</main>
 
-    <footer>
-        <div class="container"><strong>T&C Jastip</strong> — Jastip Area Jember<br>WhatsApp Admin: 0821-3998-5600</div>
-    </footer>
+<footer>
+<div class="container"><strong>T&C Jastip</strong> — Jastip Area Jember<br>WhatsApp Admin: 0821-3998-5600</div>
+</footer>
 
-    <script>
-        const ADMIN_WA = "6282139985600";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const ADMIN_WA = "6282139985600";
 
-        // ===== JADWAL ADMIN TIDAK TERSEDIA =====
-        // Tambahkan jadwal di bawah ini jika admin sedang kuliah/acara.
-        // Format tanggal: YYYY-MM-DD | jam: HH:MM (24 jam)
-        // Contoh di bawah: 5 Oktober 2026, pukul 07.00-17.00 WIB.
-        const CLOSED_SCHEDULE = [
-            {
-                date: "2026-10-05",
-                start: "07:00",
-                end: "17:00",
-                reason: "Admin sedang kuliah."
-            }
-        ];
+// ===== STATUS WEBSITE DARI SUPABASE =====
+let remoteSiteStatus = { manual_closed: false, manual_reason: "" };
+let remoteSchedules = [];
 
-        function getJakartaNow() {
-            const parts = new Intl.DateTimeFormat("en-CA", {
-                timeZone: "Asia/Jakarta",
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: false
-            }).formatToParts(new Date());
+function getJakartaNow(){
+    const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Jakarta", year:"numeric", month:"2-digit", day:"2-digit",
+        hour:"2-digit", minute:"2-digit", hour12:false
+    }).formatToParts(new Date());
+    const get = type => parts.find(p => p.type === type)?.value;
+    return { date:`${get("year")}-${get("month")}-${get("day")}`, time:`${get("hour")}:${get("minute")}` };
+}
 
-            const get = (type) => parts.find(part => part.type === type)?.value;
-            return {
-                date: `${get("year")}-${get("month")}-${get("day")}`,
-                time: `${get("hour")}:${get("minute")}`
-            };
-        }
+function formatTime(time){ return String(time).slice(0,5).replace(":",".") + " WIB"; }
 
-        function isWithinClosedSchedule(schedule, now) {
-            return schedule.date === now.date && now.time >= schedule.start && now.time < schedule.end;
-        }
+function findActiveSchedule(){
+    const now=getJakartaNow();
+    return remoteSchedules.find(s => s.date === now.date && now.time >= String(s.start_time).slice(0,5) && now.time < String(s.end_time).slice(0,5));
+}
 
-        function formatTime(time) {
-            return time.replace(":", ".") + " WIB";
-        }
+function applyClosedState(active){
+    const overlay=document.getElementById("closedOverlay");
+    const disabled=!!active;
+    document.body.classList.toggle("order-closed",disabled);
+    overlay.classList.toggle("show",disabled);
+    if(active){
+        document.getElementById("closedReason").textContent=active.reason || "Admin sedang memiliki kegiatan.";
+        document.getElementById("closedTime").textContent=active.manual ? "TUTUP SEMENTARA" : `${formatTime(active.start_time)} – ${formatTime(active.end_time)}`;
+    }
+    document.querySelectorAll("input, textarea, select, button").forEach(el => el.disabled=disabled);
+}
 
-        function checkClosedSchedule() {
-            const now = getJakartaNow();
-            const active = CLOSED_SCHEDULE.find(schedule => isWithinClosedSchedule(schedule, now));
-            const overlay = document.getElementById("closedOverlay");
+async function loadSiteStatus(){
+    const {data:status}=await db.from("site_status").select("manual_closed,manual_reason").eq("id",1).single();
+    const {data:schedules}=await db.from("closure_schedules").select("date,start_time,end_time,reason").order("date").order("start_time");
+    remoteSiteStatus=status || remoteSiteStatus;
+    remoteSchedules=schedules || [];
+    const active=remoteSiteStatus.manual_closed ? {manual:true,reason:remoteSiteStatus.manual_reason || "Admin sedang memiliki kegiatan."} : findActiveSchedule();
+    applyClosedState(active);
+}
 
-            if (active) {
-                document.body.classList.add("order-closed");
-                overlay.classList.add("show");
-                document.getElementById("closedReason").textContent = active.reason;
-                document.getElementById("closedTime").textContent = `${formatTime(active.start)} – ${formatTime(active.end)}`;
+const EXTRA_FEE = 3000;
+const form = document.getElementById("orderForm");
+const placesContainer = document.getElementById("places");
+let placeCounter = 0;
+let totalOngkir = 0;
 
-                // Matikan semua input dan tombol agar form benar-benar tidak bisa digunakan.
-                document.querySelectorAll("input, textarea, select, button").forEach(element => {
-                    element.disabled = true;
-                });
-            } else {
-                document.body.classList.remove("order-closed");
-                overlay.classList.remove("show");
+function rupiah(n){
+    return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n||0);
+}
 
-                // Jika jam tutup sudah selesai, aktifkan kembali form.
-                document.querySelectorAll("input, textarea, select, button").forEach(element => {
-                    element.disabled = false;
-                });
-            }
-        }
+function addPlace(){
+    placeCounter++;
+    const card = document.createElement("div");
+    card.className = "place-card";
 
-        const EXTRA_FEE = 3000;
-        const form = document.getElementById("orderForm");
-        const placesContainer = document.getElementById("places");
-        let placeCounter = 0;
-        let totalOngkir = 0;
-
-        function rupiah(n) {
-            return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(n || 0);
-        }
-
-        function addPlace() {
-            placeCounter++;
-            const card = document.createElement("div");
-            card.className = "place-card";
-
-            card.innerHTML = `
+    card.innerHTML = `
         <div class="place-header">
             <div class="place-title">📦 Tempat ${placeCounter}</div>
             ${placeCounter > 1 ? '<button type="button" class="remove-place">Hapus</button>' : ''}
@@ -875,123 +345,122 @@ Patokan lain yang memudahkan driver..." required></textarea>
         </div>
     `;
 
-            placesContainer.appendChild(card);
+    placesContainer.appendChild(card);
 
-            const remove = card.querySelector(".remove-place");
-            if (remove) {
-                remove.addEventListener("click", () => {
-                    card.remove();
-                    renumberPlaces();
-                    updateSummary();
-                });
-            }
+    const remove = card.querySelector(".remove-place");
+    if(remove){
+        remove.addEventListener("click",()=>{
+            card.remove();
+            renumberPlaces();
             updateSummary();
-        }
-
-        function renumberPlaces() {
-            document.querySelectorAll(".place-card").forEach((card, index) => {
-                card.querySelector(".place-title").textContent = "📦 Tempat " + (index + 1);
-            });
-            placeCounter = document.querySelectorAll(".place-card").length;
-        }
-
-        function updateSummary() {
-            const area = document.querySelector('input[name="area"]:checked');
-            const base = area ? Number(area.dataset.ongkir) : 0;
-            const additional = Math.max(0, document.querySelectorAll(".place-card").length - 1);
-            totalOngkir = base + additional * EXTRA_FEE;
-
-            document.getElementById("summaryArea").textContent = rupiah(base);
-            document.getElementById("summaryTambahan").textContent = additional + " × " + rupiah(EXTRA_FEE);
-            document.getElementById("summaryTotal").textContent = rupiah(totalOngkir);
-        }
-
-        document.getElementById("addPlace").addEventListener("click", addPlace);
-        document.querySelectorAll('input[name="area"]').forEach(input => input.addEventListener("change", updateSummary));
-
-        function buildWhatsAppMessage() {
-            updateSummary();
-
-            const nama = document.getElementById("nama").value.trim();
-            const nomor = document.getElementById("nomor").value.trim();
-            const alamat = document.getElementById("alamatKirim").value.trim();
-            const catatan = document.getElementById("catatan").value.trim();
-            const area = document.querySelector('input[name="area"]:checked');
-            const places = document.querySelectorAll(".place-card");
-
-            const orderId = "TC-" + new Date().getFullYear()
-                + String(new Date().getMonth() + 1).padStart(2, "0")
-                + String(new Date().getDate()).padStart(2, "0")
-                + "-" + String(Date.now()).slice(-5);
-
-            let msg = "*🛍️ ORDER T&C JASTIP*\n";
-            msg += "━━━━━━━━━━━━━━━━━━\n";
-            msg += "*No. Order:* " + orderId + "\n\n";
-
-            msg += "*👤 DATA PEMESAN*\n";
-            msg += "Nama: " + nama + "\n";
-            msg += "WhatsApp: " + nomor + "\n\n";
-
-            msg += "*🏪 TEMPAT YANG DITUJU*\n";
-            places.forEach((card, index) => {
-                const name = card.querySelector(".place-name").value.trim();
-                const items = card.querySelector(".place-items").value.trim();
-                const address = card.querySelector(".place-address").value.trim();
-
-                msg += "\n*Tempat " + (index + 1) + ": " + name + "*\n";
-                msg += "Barang:\n" + items + "\n";
-                if (address) msg += "Ancer-ancer tempat: " + address + "\n";
-            });
-
-            const additional = Math.max(0, places.length - 1);
-            msg += "\n*🚚 PENGANTARAN*\n";
-            msg += "Area: " + (area ? area.value : "-") + "\n";
-            msg += "Ongkir area: " + rupiah(area ? Number(area.dataset.ongkir) : 0) + "\n";
-            msg += "Tempat tambahan: " + additional + " × Rp3.000 = " + rupiah(additional * EXTRA_FEE) + "\n";
-            msg += "*TOTAL ONGKIR: " + rupiah(totalOngkir) + "*\n\n";
-
-            msg += "*📍 ALAMAT / ANCER-ANCER PENGANTARAN*\n";
-            msg += alamat + "\n";
-
-            if (catatan) msg += "\n*📝 CATATAN*\n" + catatan + "\n";
-
-            msg += "\n*🧾 TOTAL UNTUK DIHITUNG ADMIN*\n";
-            msg += "Ongkir + tambahan tempat: *" + rupiah(totalOngkir) + "*\n";
-            msg += "Harga barang: mohon dihitung/dikonfirmasi oleh Admin.\n";
-            msg += "*TOTAL AKHIR: dihitung oleh Admin setelah pesanan dicek.*\n";
-
-            msg += "\n━━━━━━━━━━━━━━━━━━\n";
-            msg += "Mohon dicek dan dikonfirmasi ya min. Terima kasih 🙏";
-
-            return msg;
-        }
-
-        document.getElementById("sendWhatsapp").addEventListener("click", () => {
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
-
-            updateSummary();
-            if (totalOngkir <= 0) {
-                alert("Total ongkir belum valid.");
-                return;
-            }
-
-            document.getElementById("successBox").classList.add("show");
-
-            const url = "https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(buildWhatsAppMessage());
-            window.open(url, "_blank");
         });
+    }
+    updateSummary();
+}
 
-        // Tempat pertama otomatis tersedia.
-        addPlace();
-        updateSummary();
-        checkClosedSchedule();
+function renumberPlaces(){
+    document.querySelectorAll(".place-card").forEach((card,index)=>{
+        card.querySelector(".place-title").textContent = "📦 Tempat " + (index+1);
+    });
+    placeCounter = document.querySelectorAll(".place-card").length;
+}
 
-        // Cek ulang setiap menit agar status otomatis berubah tanpa refresh halaman.
-        setInterval(checkClosedSchedule, 60000);
-    </script>
+function updateSummary(){
+    const area = document.querySelector('input[name="area"]:checked');
+    const base = area ? Number(area.dataset.ongkir) : 0;
+    const additional = Math.max(0,document.querySelectorAll(".place-card").length - 1);
+    totalOngkir = base + additional * EXTRA_FEE;
+
+    document.getElementById("summaryArea").textContent = rupiah(base);
+    document.getElementById("summaryTambahan").textContent = additional + " × " + rupiah(EXTRA_FEE);
+    document.getElementById("summaryTotal").textContent = rupiah(totalOngkir);
+}
+
+document.getElementById("addPlace").addEventListener("click",addPlace);
+document.querySelectorAll('input[name="area"]').forEach(input=>input.addEventListener("change",updateSummary));
+
+function buildWhatsAppMessage(){
+    updateSummary();
+
+    const nama = document.getElementById("nama").value.trim();
+    const nomor = document.getElementById("nomor").value.trim();
+    const alamat = document.getElementById("alamatKirim").value.trim();
+    const catatan = document.getElementById("catatan").value.trim();
+    const area = document.querySelector('input[name="area"]:checked');
+    const places = document.querySelectorAll(".place-card");
+
+    const orderId = "TC-" + new Date().getFullYear()
+        + String(new Date().getMonth()+1).padStart(2,"0")
+        + String(new Date().getDate()).padStart(2,"0")
+        + "-" + String(Date.now()).slice(-5);
+
+    let msg = "*🛍️ ORDER T&C JASTIP*\n";
+    msg += "━━━━━━━━━━━━━━━━━━\n";
+    msg += "*No. Order:* " + orderId + "\n\n";
+
+    msg += "*👤 DATA PEMESAN*\n";
+    msg += "Nama: " + nama + "\n";
+    msg += "WhatsApp: " + nomor + "\n\n";
+
+    msg += "*🏪 TEMPAT YANG DITUJU*\n";
+    places.forEach((card,index)=>{
+        const name = card.querySelector(".place-name").value.trim();
+        const items = card.querySelector(".place-items").value.trim();
+        const address = card.querySelector(".place-address").value.trim();
+
+        msg += "\n*Tempat " + (index+1) + ": " + name + "*\n";
+        msg += "Barang:\n" + items + "\n";
+        if(address) msg += "Ancer-ancer tempat: " + address + "\n";
+    });
+
+    const additional = Math.max(0,places.length-1);
+    msg += "\n*🚚 PENGANTARAN*\n";
+    msg += "Area: " + (area ? area.value : "-") + "\n";
+    msg += "Ongkir area: " + rupiah(area ? Number(area.dataset.ongkir) : 0) + "\n";
+    msg += "Tempat tambahan: " + additional + " × Rp3.000 = " + rupiah(additional*EXTRA_FEE) + "\n";
+    msg += "*TOTAL ONGKIR: " + rupiah(totalOngkir) + "*\n\n";
+
+    msg += "*📍 ALAMAT / ANCER-ANCER PENGANTARAN*\n";
+    msg += alamat + "\n";
+
+    if(catatan) msg += "\n*📝 CATATAN*\n" + catatan + "\n";
+
+    msg += "\n*🧾 TOTAL UNTUK DIHITUNG ADMIN*\n";
+    msg += "Ongkir + tambahan tempat: *" + rupiah(totalOngkir) + "*\n";
+    msg += "Harga barang: mohon dihitung/dikonfirmasi oleh Admin.\n";
+    msg += "*TOTAL AKHIR: dihitung oleh Admin setelah pesanan dicek.*\n";
+
+    msg += "\n━━━━━━━━━━━━━━━━━━\n";
+    msg += "Mohon dicek dan dikonfirmasi ya min. Terima kasih 🙏";
+
+    return msg;
+}
+
+document.getElementById("sendWhatsapp").addEventListener("click",()=>{
+    if(!form.checkValidity()){
+        form.reportValidity();
+        return;
+    }
+
+    updateSummary();
+    if(totalOngkir<=0){
+        alert("Total ongkir belum valid.");
+        return;
+    }
+
+    document.getElementById("successBox").classList.add("show");
+
+    const url = "https://wa.me/" + ADMIN_WA + "?text=" + encodeURIComponent(buildWhatsAppMessage());
+    window.open(url,"_blank");
+});
+
+// Tempat pertama otomatis tersedia.
+addPlace();
+updateSummary();
+loadSiteStatus();
+
+// Cek ulang setiap menit agar status otomatis berubah tanpa refresh halaman.
+setInterval(loadSiteStatus, 60000);
+</script>
 </body>
-
 </html>
