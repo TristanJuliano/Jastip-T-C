@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin T&C Jastip</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f6f6f6;color:#222}.container{width:min(900px,92%);margin:auto}header{background:#111;color:#fff;padding:22px 0}header .container{display:flex;justify-content:space-between;align-items:center}.brand{font-size:26px;font-weight:900}.brand span{color:#ff3340}main{padding:35px 0 60px}.card{background:#fff;border-radius:18px;padding:24px;margin-bottom:20px;box-shadow:0 8px 30px #00000010}h1,h2,h3{margin-top:0}.status{padding:18px;border-radius:14px;margin:15px 0;font-weight:800}.open{background:#eaf9ef;color:#16713a}.closed{background:#feecec;color:#a51f28}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.field{display:flex;flex-direction:column;gap:7px}.full{grid-column:1/-1}label{font-weight:700;font-size:14px}input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;font:inherit}textarea{min-height:90px}.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}.red{background:#e51f2a;color:#fff}.green{background:#159447;color:#fff}.light{background:#eee}.actions{display:flex;gap:10px;flex-wrap:wrap}.actions .btn{flex:1;min-width:180px}.schedule{border:1px solid #ddd;border-radius:13px;padding:15px;margin-top:12px;display:flex;justify-content:space-between;gap:15px;align-items:center}.schedule small{color:#666}.hidden{display:none!important}.error{color:#b4232c;margin-top:10px}.success{color:#16713a;margin-top:10px}@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.schedule{display:block}.schedule button{margin-top:10px}}
+</style>
+</head>
+<body>
+<header><div class="container"><div class="brand">T<span>&</span>C — Admin</div><button id="logoutBtn" class="btn light hidden">Keluar</button></div></header>
+<main class="container">
+<section id="loginCard" class="card">
+<h2>Login Admin</h2><p>Gunakan akun Admin yang dibuat di Supabase Authentication.</p>
+<div class="grid">
+<div class="field"><label>Email</label><input id="email" type="email" placeholder="admin@email.com"></div>
+<div class="field"><label>Password</label><input id="password" type="password" placeholder="Password"></div>
+</div><br><button id="loginBtn" class="btn red">Login</button><div id="loginMsg" class="error"></div>
+</section>
+<section id="dashboard" class="hidden">
+<div class="card"><h2>Status Website</h2><div id="statusBox" class="status open">Memuat...</div>
+<div class="grid"><div class="field full"><label>Alasan tutup manual</label><textarea id="manualReason" placeholder="Contoh: Admin sedang kuliah / ada keperluan."></textarea></div></div>
+<div class="actions"><button id="openBtn" class="btn green">🟢 Buka Website</button><button id="closeBtn" class="btn red">🔴 Tutup Sekarang</button></div><div id="statusMsg"></div></div>
+<div class="card"><h2>Tambah Jadwal Tutup</h2><p>Jadwal ini otomatis membuat website tidak bisa digunakan pada tanggal dan jam yang dipilih.</p>
+<div class="grid"><div class="field"><label>Tanggal</label><input id="date" type="date"></div><div class="field"><label>Mulai</label><input id="start" type="time"></div><div class="field"><label>Selesai</label><input id="end" type="time"></div><div class="field"><label>Alasan</label><input id="reason" type="text" placeholder="Admin sedang kuliah"></div></div><br><button id="addScheduleBtn" class="btn red">＋ Simpan Jadwal</button><div id="scheduleMsg"></div></div>
+<div class="card"><h2>Jadwal Mendatang</h2><div id="scheduleList">Memuat...</div></div>
+</section>
+</main>
+<script>
+const {createClient}=supabase;
+const db=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const loginCard=document.getElementById('loginCard'),dashboard=document.getElementById('dashboard'),logoutBtn=document.getElementById('logoutBtn');
+function msg(el,text,type=''){el.textContent=text;el.className=type;}
+async function init(){const {data:{session}}=await db.auth.getSession();showSession(session);await refresh();}
+function showSession(session){const logged=!!session;loginCard.classList.toggle('hidden',logged);dashboard.classList.toggle('hidden',!logged);logoutBtn.classList.toggle('hidden',!logged);}
+async function login(){msg(loginMsg,'');const {data,error}=await db.auth.signInWithPassword({email:email.value,password:password.value});if(error){msg(loginMsg,error.message,'error');return}showSession(data.session);await refresh();}
+loginBtn.onclick=login;logoutBtn.onclick=async()=>{await db.auth.signOut();showSession(null)};
+db.auth.onAuthStateChange((_event,session)=>showSession(session));
+async function refresh(){if(!dashboard.classList.contains('hidden')){await loadStatus();await loadSchedules()}}
+async function loadStatus(){const {data,error}=await db.from('site_status').select('*').eq('id',1).single();if(error){statusBox.textContent='Gagal membaca status. Pastikan SQL setup sudah dijalankan.';statusBox.className='status closed';return}manualReason.value=data.manual_reason||'';const text=data.manual_closed?'🔴 WEBSITE TUTUP MANUAL — '+(data.manual_reason||'Admin menutup sementara.'):'🟢 WEBSITE TERBUKA';statusBox.textContent=text;statusBox.className='status '+(data.manual_closed?'closed':'open')}
+async function setManual(closed){const reason=manualReason.value.trim();if(closed&&!reason){alert('Isi alasan tutup terlebih dahulu.');return}const {error}=await db.from('site_status').update({manual_closed:closed,manual_reason:closed?reason:null,updated_at:new Date().toISOString()}).eq('id',1);if(error){msg(statusMsg,error.message,'error');return}msg(statusMsg,closed?'Website ditutup.':'Website dibuka.','success');await loadStatus()}
+openBtn.onclick=()=>setManual(false);closeBtn.onclick=()=>setManual(true);
+async function addSchedule(){msg(scheduleMsg,'');if(!date.value||!start.value||!end.value||!reason.value.trim()){msg(scheduleMsg,'Lengkapi semua data jadwal.','error');return}if(start.value>=end.value){msg(scheduleMsg,'Jam selesai harus lebih besar dari jam mulai.','error');return}const {error}=await db.from('closure_schedules').insert({date:date.value,start_time:start.value,end_time:end.value,reason:reason.value.trim()});if(error){msg(scheduleMsg,error.message,'error');return}msg(scheduleMsg,'Jadwal berhasil ditambahkan.','success');reason.value='';await loadSchedules()}
+addScheduleBtn.onclick=addSchedule;
+async function loadSchedules(){const {data,error}=await db.from('closure_schedules').select('*').order('date',{ascending:true}).order('start_time',{ascending:true});if(error){scheduleList.textContent=error.message;return}if(!data.length){scheduleList.innerHTML='<p>Belum ada jadwal tutup.</p>';return}scheduleList.innerHTML=data.map(s=>`<div class="schedule"><div><strong>${s.date}</strong><br><small>${s.start_time.slice(0,5)} – ${s.end_time.slice(0,5)} WIB · ${escapeHtml(s.reason)}</small></div><button class="btn light" onclick="deleteSchedule('${s.id}')">Hapus</button></div>`).join('')}
+async function deleteSchedule(id){if(!confirm('Hapus jadwal ini?'))return;const {error}=await db.from('closure_schedules').delete().eq('id',id);if(error){alert(error.message);return}await loadSchedules()}
+function escapeHtml(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+init();
+</script>
+</body>
+</html>
